@@ -3,30 +3,22 @@
        
         <div class="line"></div>
         <div class="box2">
+          
             
             <div class="right">
-                <el-button @click="dialogTableVisible = true">第1组</el-button>
-                <el-button @click="dialogTableVisible = true">第2组</el-button>
-                <el-button @click="dialogTableVisible = true">第3组</el-button>
-                <el-button @click="dialogTableVisible = true">第4组</el-button>
-                <el-button @click="dialogTableVisible = true">第5组</el-button>
-                <el-button @click="dialogTableVisible = true">第6组</el-button>
+                <el-scrollbar height="700px">
+                    <el-button v-for="item in 20" :key="item" @click="Week(item)" class="scrollbar-demo-item">第{{ item }}周</el-button>
+                </el-scrollbar>
+                <div class="main">
+                    <div class="student" key="name">{{ name }}</div>
+                    <div class="student" key="name">{{ name }}</div>
+                    <div class="student" key="name">{{ name }}</div>
+                    <div class="student" key="name">{{ name }}</div>
+                    <div class="student" key="name">{{ name }}</div>
+                </div>
             </div>
         </div>
     </div>
-
-
-    <el-dialog v-model="dialogTableVisible" width="540">
-      <el-table :data="gridData">
-        <el-table-column property="id" label="学号" width="300" />
-        <el-table-column property="name" label="姓名" width="200" />
-      </el-table>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button type="primary" @click="dialogTableVisible = false">关闭</el-button>
-        </div>
-      </template>
-    </el-dialog>
     <router-view />
 </template>
 
@@ -35,25 +27,7 @@ export default{
     data(){
         return{
             path:'',
-            dialogTableVisible:false,
-            gridData : [
-                {
-                    id: '20241129',
-                    name: '张三',
-                },
-                {
-                    id: '20241130',
-                    name: '张三',
-                },
-                {
-                    id: '20241201',
-                    name: '张三',
-                },
-                {
-                    id: '20241202',
-                    name: '张三',
-                },
-            ]
+            name: '张三',
         }
     },
     mounted(){
@@ -73,11 +47,20 @@ export default{
             this.$router.push({ name: 'Login' }); // 跳转到登录页面
         },
         GoToStudentGroup(){
-            this.$router.push({ name: 'StudentGroup' }); //
+            this.$router.push({ name: 'StudentGroup' }); // 跳转到学生分组情况页面
         },
         GoToStudentReport(){
-            this.$router.push({ name: 'StudentReport' }); //
+            this.$router.push({ name: 'StudentReport' }); // 跳转到学生汇报时间页面
         },
+        Week(num){
+            // 从后端获取对应周数的学生信息
+            if(num==1){
+                this.name="李四";
+            }
+            else{
+                this.name="张三";
+            }
+        }
     }
 }
 </script>
@@ -155,14 +138,33 @@ export default{
         flex: 1;
         padding: 30px;
 
-        display: grid;
-        grid-template-columns: repeat(6,200px);
+        display: flex;
+        flex-flow: row;
+
     }
-    .right button{
+    .main{
+        margin: 50px;
+        display: grid;
+        grid-template-columns: repeat(5,200px);
+    }
+    .student{
+        display: flex;
+        align-items: center;
+        justify-content: center;
         height: 150px;
         width: 150px;
-        background-color: white;
-        font-size: 30px;
-        font-weight: bold;
+        border: 1px solid black;
+    }
+    .scrollbar-demo-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: 170px;
+        margin: 10px;
+        text-align: center;
+        border-radius: 4px;
+        background: var(--el-color-primary-light-9);
+        color: black;
     }
 </style>

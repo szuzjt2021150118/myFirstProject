@@ -18,7 +18,7 @@
                             <p><strong>内容：</strong>{{ item.content }}</p>
                             <p><strong>日期：</strong>{{ item.date }}</p>
                         </div>
-                    </transition>
+                    </transition>   
                 </div>
 
             </el-scrollbar>
@@ -65,6 +65,7 @@
 <script>
 import { ElScrollbar, ElIcon } from 'element-plus';
 import { CirclePlus } from '@element-plus/icons-vue';
+import axios from 'axios';
 
 export default {
     components: {
@@ -75,8 +76,7 @@ export default {
     data() {
         return {
             announcements: [
-                { id: 1, title: '公告 1', content: '内容 1', date: '2024-11-28' },
-                { id: 2, title: '公告 2', content: '内容 2', date: '2024-11-27' },
+               
             ], // 公告列表
             newTitle: '',
             newContent: '',
@@ -88,6 +88,19 @@ export default {
         };
     },
     methods: {
+        async fetchAnnouncementList(){
+            try{
+                const response=await axios.get("http://127.0.0.1:4523/m1/5394050-5067403-default/announcement/get");
+                if(response.status===200){
+                    this.announcements=response.data.data;
+                    console.log(response.data.message)
+                }
+            }
+            catch (error) {
+                console.error("网络错误或接口异常:", error);
+                this.$message.error("网络错误，请稍后重试！");
+            }
+        },
         openAddWindow() {
             this.addWindowVisible = true;
         },
@@ -102,18 +115,40 @@ export default {
                 this.imagePreview = URL.createObjectURL(file); // 生成预览地址
             }
         },
-        submitNewAnnouncement() {
-            const newAnnouncement = {
-                id: this.announcements.length + 1,
-                title: this.newTitle,
-                content: this.newContent,
-                date: this.newDate,
-                image: this.imagePreview, // 在真实环境中应为图片 URL
-            };
-            this.announcements.push(newAnnouncement);
-            this.resetForm();
-            this.addWindowVisible = false;
-        },
+        async submitNewAnnouncement() {
+    const formData = new FormData();
+    formData.append('title', this.newTitle);
+    formData.append('content', this.newContent);
+    formData.append('date', this.newDate);
+    if (this.newImage) {
+        formData.append('image', this.newImage); // 将文件对象添加到 FormData
+    }
+
+    try {
+        const response = await axios.post(
+            "http://127.0.0.1:4523/m1/5394050-5067403-default/announcement/post",
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            this.$message.success("公告添加成功！");
+            console.log(response.data.message)
+            this.fetchAnnouncementList(); // 刷新公告列表
+        }
+    } catch (error) {
+        console.error("提交失败:", error);
+        this.$message.error("提交失败，请稍后重试！");
+    }
+
+    this.resetForm();
+    this.addWindowVisible = false;
+},
+
         resetForm() {
             this.newTitle = '';
             this.newContent = '';
@@ -128,17 +163,22 @@ export default {
             toggleDetails(itemId) {
                 this.expandedItem = this.expandedItem === itemId ? null : itemId; // 切换展开项
             },
-        }
+        },
+        
 
     },
+    mounted() {
+        this.fetchAnnouncementList(); //加载获取公告列表
+    }
 };
 </script>
 
 
-<style>
+<style scoped>
 /* 页面布局和样式 */
 .container {
-    width: 75vw;
+    width: 89%;
+    height: 76vh;
     margin: 0 auto;
     background-color: #f9f9f9;
     border-radius: 8px;

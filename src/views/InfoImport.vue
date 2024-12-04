@@ -73,18 +73,10 @@ export default {
 
 <style scoped>
 .container {
-  width: 75vw;
-  /* 容器宽度 */
-  margin: 50px auto;
-  /* 距页面顶部50px，水平居中 */
-  background-color: #f9f9f9;  
-  /* 背景颜色 */
-  border-radius: 8px;
-  /* 圆角 */
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* 阴影效果 */
-  position: relative;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h3 {

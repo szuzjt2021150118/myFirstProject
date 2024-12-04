@@ -9,16 +9,8 @@ const router = createRouter({
       name: 'home',
       component: ()=> import('../views/Home.vue'),
     },
-    {
-      path: '/announcementPost',
-      name: 'announcementPost',
-      component: ()=> import('../views/announcemetPost.vue'),
-    },
-    {
-      path: '/announcement',
-      name: 'announcement',
-      component: ()=> import('../views/announcement.vue'),
-    },
+   
+   
     {
       path: '/stumanagement',
       name: 'stumanagement',
@@ -31,13 +23,23 @@ const router = createRouter({
     },
     {
       path: '/publishResources',
-      name: 'groupInfo',
+      name: 'publishResources',
       component: () => import('../views/publishResources.vue'),
     },
     {
       path: '/Infoimport',
       name: 'Infoimport',
-      component: () => import('../views/Infoimport.vue')
+      component: () => import('../views/InfoImport.vue')
+    },
+    {
+      path: '/studentReport',
+      name: 'studentReport',
+      component: () => import('../views/studentReport.vue')
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('../views/LoginPage.vue')
     },
   ],
 })

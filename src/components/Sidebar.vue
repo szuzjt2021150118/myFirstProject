@@ -1,82 +1,53 @@
 <template>
-  <div class="sidebar">
-    <ul>
-      <li><RouterLink to="/">首页</RouterLink></li>
-      
-      <!-- 学生管理菜单 -->
-      <li @click="toggleSubMenu('studentManagement')" class="menu-item">
-        学生管理
-        <ul v-if="openMenu === 'studentManagement'" class="submenu">
-          <li><RouterLink to="/Infoimport">批量导入</RouterLink></li>
-          <li><RouterLink to="/stumanagement/list">学生列表</RouterLink></li>
-        </ul>
-      </li>
-      
-      <li><RouterLink to="/publishResources">资源发布</RouterLink></li>
-      <li><RouterLink to="/announcement">学生分组情况</RouterLink></li>
-      <li><RouterLink to="/groupInfo">学生汇报时间</RouterLink></li>
-    </ul>
+  <div class="box2">
+    <div class="left">
+      <RouterLink to="/" class="square">首页</RouterLink>
+      <RouterLink to="/stumanagement" class="square">学生管理</RouterLink>
+      <RouterLink to="/publishResources" class="square">资源发布</RouterLink>
+      <RouterLink to="/groupInfo" class="square">学生分组情况</RouterLink>
+      <RouterLink to="/studentReport" class="square">学生汇报时间</RouterLink>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Sidebar',
-  data() {
-    return {
-      openMenu: null, // 当前打开的菜单
-    };
-  },
-  methods: {
-    toggleSubMenu(menu) {
-      // 如果当前打开的菜单已经打开，则关闭；否则切换到新的菜单
-      this.openMenu = this.openMenu === menu ? null : menu;
-    },
-  },
-};
-</script>
-
 <style scoped>
-.sidebar {
-  width: 15vw;
-  height: 85vh;
-  background-color: #333;
-  color: white;
-  padding: 15px;
-  position: relative;
-  top: 0;
-  left: 0;
+.box2 {
+  width: 15%;
+  height: 80vh;
+  flex: 1;
+  margin-top:0px;
+  display: flex;
+  justify-content: flex-start;  /* 水平排列 */
 }
 
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
+.left {
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, .1);
+  margin-right: 20px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;  /* 垂直排列 */
+  gap: 10px;  /* 按钮之间的间距 */
+  padding: 20px;  /* 内边距 */
+  align-items: stretch;  /* 按钮宽度拉伸 */
 }
 
-.sidebar li {
-  margin: 15px 0;
-  cursor: pointer;
+.square {
+  display: inline-block;
+  width: 80%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;  /* 文字居中 */
+  border-radius: 12px; /* 圆角效果 */
+  color: #333;
+  background-color: #f0f0f0; /* 按钮背景 */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;  /* 去掉链接的下划线 */
 }
 
-.submenu {
-  padding-left: 20px;
-}
-
-.submenu li {
-  margin: 10px 0;
-}
-
-.sidebar a {
-  color: white;
-  text-decoration: none;
-}
-
-.sidebar a:hover {
-  text-decoration: underline;
-}
-
-.menu-item:hover {
-  background-color: #444;
-  transition: 0.3s;
+.square:hover {
+  background-color: #409eff; /* 悬停时的背景色 */
+  color: white; /* 悬停时的文字颜色 */
 }
 </style>
